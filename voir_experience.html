@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let Meteo=[{"id_meteo":1,"meteo":"Nuageux"},{"id_meteo":2,"meteo":"Soleil"},{"id_meteo":3,"meteo":"Brumeux"}];
+        console.log(Meteo);
+        let Pression=[{"id_pression":1,"pression":"1019hPa"},{"id_pression":2,"pression":"2019hPa"},{"id_pression":3,"pression":"5019hPa"},{"id_pression":4,"pression":"3018hPa"}];
+        console.log(Pression);
+        let Indiceuv=[{"id_indice":1,"indiceuv":"Faible"},{"id_indice":2,"indiceuv":"moyen"},{"id_indice":3,"indiceuv":"haut"},{"id_indice":4,"indiceuv":"normal"}];
+        console.log(Indiceuv);
+        let Conduite=[{"id_conduite":1,"vitesse":"entre 20km/h et 25km/h"},{"id_conduite":2,"vitesse":"entre 30km/h et 45km/h"},{"id_conduite":3,"vitesse":"entre 10km/h et 25km/h"},{"id_conduite":4,"vitesse":"entre 50km/h et 55km/h"}];
+        console.log(Conduite);
+        let experience_conduite=[{"id_expco":1,"date_expco":"2023-03-29","hd_expco":"08:00","hf_excpo":"11:30","distance_par":"50km","id_meteo":1,"id_conduite":1},{"id_expco":2,"date_expco":"2023-03-28","hd_expco":"08:00","hf_excpo":"11:15","distance_par":"120km","id_meteo":2,"id_conduite":2},{"id_expco":3,"date_expco":"2023-03-25","hd_expco":"08:00","hf_excpo":"12:30","distance_par":"90km","id_meteo":3,"id_conduite":3}];
+        console.log(experience_conduite);
+
+        let ListeExperiences=new Array();
+        let dataString=localStorage.getItem("listeExperiences");
+             if(dataString!=null) ListeExperiences=JSON.parse(dataString); 
+
+        document.onreadystatechange=function(){
+            if (document.readyState=="complete"){
+            afficheListeExperience();
+            }
+            }
+
+         function afficheListeExperience(){
+            let codeHTML="<table><head><tr><th>Nom</th><th>Prenom</th><th>Email</th><th>Tel</th><th>Date</th><th>Meteo</th><th>Pression</th><th>Precipitation</th><th>Ressenti</th><th>heureDepart</th><th>heureArrive</th><th>vitesse</th><th>indiceUV</th></tr></head><tbody>";
+            ListeExperiences.forEach(function (item,index) {
+                let lidMeteo=item.id_meteo;
+                let MeteoRecherche=Meteo.find(meteoElement=>meteoElement.id_meteo==lidMeteo).meteo;
+
+                let lidPression=item.id_pression;
+                let PressionRecherche=Pression.find(pressionElement=>pressionElement.id_pression==lidPression).pression;
+                
+                let lidVitesse=item.id_conduite;
+                let vitesseRecherche=Conduite.find(vitesseElement=>vitesseElement.id_conduite==lidVitesse).vitesse;
+
+                let lidIndiceuv=item.id_indice;
+                let IndiceRecherche=Indiceuv.find(indiceElement=>indiceElement.id_indice==lidIndiceuv).indiceuv;
+
+                
+            codeHTML+='<tr>';
+            codeHTML+=`<td>${item.Nom}</td>`;
+            codeHTML+=`<td>${item.prenom}</td>`;
+            codeHTML+=`<td>${item.email}</td>`;
+            codeHTML+=`<td>${item.tel}</td>`;
+            codeHTML+=`<td>${item.date}</td>`;
+            codeHTML+=`<td>${MeteoRecherche}</td>`;
+            codeHTML+=`<td>${PressionRecherche}</td>`;
+            codeHTML+=`<td>${item.precip}</td>`;
+            codeHTML+=`<td>${item.id_ressenti}</td>`;
+            codeHTML+=`<td>${item.hd}</td>`;
+            codeHTML+=`<td>${item.hf}</td>`;
+            codeHTML+=`<td>${vitesseRecherche}</td>`;
+            codeHTML+=`<td>${IndiceRecherche}</td>`;
+            codeHTML+='</tr>';
+
+            });
+            codeHTML+="</tbody></table>";
+            document.getElementById('main').insertAdjacentHTML("afterbegin", codeHTML)
+            }
+    </script>
+    <style>
+        table {table-layout: auto;width: 1100px;border:1px solid black;border-collapse: collapse;}	
+        th, td {border:1px solid black; text-align: center;}
+    </style>
+</head>
+<body>
+    <section id="main"></section>
+    
+</body>
+</html>

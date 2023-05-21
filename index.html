@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, html{
+      padding:0;
+      margin:0;
+      
+      width:100vw;
+      min-height:100vh;
+    }
+        
+        fieldset {border:2px solid rgb(17, 17, 17);border-radius: 15px;margin:5px 10px;line-height: 35px;}
+        input[required]:invalid {border:2px red solid;}
+        input[required]:valid {border:2px green solid;}
+        button{border: solid black 1px; background-color: rgb(93, 93, 216); color: black; border-radius: 4px; rgba(0,0,0.5); width: 100px; height: 50px; padding: 9px;}
+        .champ{text-align: center; border: solid black 1px;border-radius: 10px;background-color:#f0dda8;
+        border-radius: 10px;box-shadow: 6px 6px 25px rgba(0,0,0.5);opacity: 0.9;}
+
+    @media screen and (min-width:640px){
+
+        .resultat{
+            color: rgb(30, 64, 129);
+            font-size: 20px;
+            
+        }
+        .resultat:hover{
+            color: rgb(101, 4, 106);
+        }
+
+        body{
+      display: grid;
+      box-sizing: border-box;
+      grid-template-rows: 1fr 5fr 1fr;
+      grid-gap: 10px;
+      background-image: url(pexels-ivan-kazlouski-12190256.jpg);
+      background-size:100% 100% ;
+      background-repeat: no-repeat;
+    }
+    header,footer,article{
+        min-height: 5px;
+    }    
+    header{
+        grid-row: 1;
+        text-align: center;
+    }
+    article{
+        grid-row: 2;
+        width: 740px;
+        
+        margin: auto;
+    }footer{
+        grid-row: 3;
+    }
+}
+    
+    @media screen and (max-width:640px){
+
+        .resultat{
+            color: rgb(30, 64, 129);
+            font-size: 20px;
+            
+        }
+        .resultat:hover{
+            color: rgb(101, 4, 106);
+        }
+        body{
+        display: grid;
+        box-sizing: border-box;
+        background-image: url(pexels-ivan-kazlouski-12190256.jpg);
+        background-size:cover ;
+      background-repeat: no-repeat;
+      height: 100px;
+        
+        
+        grid-template-rows: 1fr 4fr 1fr ;
+        grid-gap: 9px;
+      }
+      header,article{
+        min-height: 1px;
+        
+      }
+      header{
+        grid-row: 1;
+        text-align: center;
+        
+      }
+      article{
+        grid-row: 2;
+        background:#dd8;
+      }
+      footer{
+        grid-row: 3;
+        
+      }
+    }
+    </style>
+     <script>
+    
+        let Meteo=[{"id_meteo":1,"meteo":"Nuageux"},{"id_meteo":2,"meteo":"Soleil"},{"id_meteo":3,"meteo":"Brumeux"}];
+        console.log(Meteo);
+        let Pression=[{"id_pression":1,"pression":"1019hPa"},{"id_pression":2,"pression":"2019hPa"},{"id_pression":3,"pression":"5019hPa"},{"id_pression":4,"pression":"3018hPa"}];
+        console.log(Pression);
+        let Indiceuv=[{"id_indice":1,"indiceuv":"Faible"},{"id_indice":2,"indiceuv":"moyen"},{"id_indice":3,"indiceuv":"haut"},{"id_indice":4,"indiceuv":"normal"}];
+        console.log(Indiceuv);
+        let Conduite=[{"id_conduite":1,"vitesse":"entre 20km/h et 25km/h"},{"id_conduite":2,"vitesse":"entre 30km/h et 45km/h"},{"id_conduite":3,"vitesse":"entre 10km/h et 25km/h"},{"id_conduite":4,"vitesse":"entre 50km/h et 55km/h"}];
+        console.log(Conduite);
+        let experience_conduite=[{"id_expco":1,"date_expco":"2023-03-29","hd_expco":"08:00","hf_excpo":"11:30","distance_par":"50km","id_meteo":1,"id_conduite":1},{"id_expco":2,"date_expco":"2023-03-28","hd_expco":"08:00","hf_excpo":"11:15","distance_par":"120km","id_meteo":2,"id_conduite":2},{"id_expco":3,"date_expco":"2023-03-25","hd_expco":"08:00","hf_excpo":"12:30","distance_par":"90km","id_meteo":3,"id_conduite":3}];
+        console.log(experience_conduite);
+
+
+        function saveExperience(){
+            Nom=document.getElementById('Nom').value;
+            Prenom=document.getElementById('prenom').value;
+            email=document.getElementById('email').value;
+            Tel=document.getElementById('tel').value;
+            date=document.getElementById('date').value;
+            Meteo=document.getElementById('id_meteo').value;
+            Pression=document.getElementById('id_pression').value;
+            Precipitation=document.getElementById('precip').value;
+            Ressenti=document.getElementById('id_ressenti').value;
+            heure_depart=document.getElementById('hd').value;
+            heure_arrive=document.getElementById('hf').value;
+            vitesse=document.getElementById('id_conduite').value;
+            indice=document.getElementById('id_indice').value;
+            console.log(`Nom:${Nom},Prenom:${Prenom},Email:${email},Telephone:${Tel},Date:${date},meteo:${Meteo},pression:${Pression},precipitation:${Precipitation},Ressenti:${Ressenti},heureDepart:${heure_depart},heureArrive:${heure_arrive},Vitesse:${vitesse},Indice:${indice}`);
+           
+            ListeExperience=new Array();
+            ListeExperienceString=localStorage.getItem("listeExperiences");
+            if(ListeExperienceString!=null) ListeExperience=JSON.parse(ListeExperienceString); 
+            
+            newIDExperience=ListeExperience.length+1;
+            newExperience={"idExperience":newIDExperience,"Nom":Nom,"prenom":Prenom,"email":email,"tel":Tel,"date":date,"id_meteo":Meteo,"id_pression":Pression,"precip":Precipitation,"id_ressenti":Ressenti,"hd":heure_depart,"hf":heure_arrive,"id_conduite":vitesse,"id_indice":indice};
+            console.log(newExperience);
+            
+            ListeExperience.push(newExperience);
+            localStorage.setItem('listeExperiences',JSON.stringify(ListeExperience));
+            document.getElementById('formulaire').reset();
+            
+            
+        }
+        
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Formulaire</h1>
+        <p>
+            <a class="resultat" href="voir_experience.html">Resultats experience de conduite</a>
+        </p>
+        
+        
+    </header>
+    <article>
+        <div class="champ">
+            
+            <form id="formulaire" method="post" action="reponse.php">
+                <fieldset>
+                    <legend>Information Personnelles</legend>
+                    <p>
+                        <label for="Nom"><b>Nom:</b></label>
+                        <input type="text" id="Nom" name="nom" placeholder="Votre Nom" maxlength="20" required>
+                    </p>
+                    
+                    <span><label for="prenom"><b>Prenom:</b></label></span>
+                    <input type="text" id="prenom" name="prenom" placeholder="Votre prenom" maxlength="20" required><br>
+                    
+                    <p>
+                        <label for="email"><b>email:</b></label>
+                        <input type="email" id="email" name="email" placeholder="johngirau@yahoo.fr" maxlength="50" required pattern=".+@.+\..+">
+                    </p>
+                    <p>
+                        <label for="tel"><b>Tel:</b></label>
+                        <input type="tel" id="tel" name="phoneNumber"  placeholder="03 88 65 06 35" minlength="10" maxlength="10" required>
+                    </p>
+                    <p>
+                        <label for="date"><b>Date de naissance:</b></label>
+                        <input type="date" id="date" name="websiteDate"  required>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>Experience conduite</legend>
+                    <p>
+                        <label for="id_meteo" ><b>Météo</b></label><br>
+                        <select name="meteo" id="id_meteo">
+                            <option value="">--choix--</option>
+                        </select>
+                        
+                    </p>
+                    <script>
+                        Meteo.forEach(function(item,index) {
+                            let loptionMeteo=`<option value="${item.id_meteo}">${item.meteo}
+                                </option>`;
+                            document.getElementById("id_meteo").insertAdjacentHTML('beforeend',loptionMeteo);   
+                            
+                        });
+                    </script>
+                    <p>
+                        <label for="id_pression"><b>Pression</b></label><br>
+                        <select name="pression" id="id_pression">
+                            <option value="">--choix--</option>
+                        </select>
+                    </p>
+                    <script>
+                        Pression.forEach(function(item,index) {
+                            let loptionPression=`<option value="${item.id_pression}">${item.pression} 
+                                </option>`;
+                            document.getElementById("id_pression").insertAdjacentHTML('beforeend',loptionPression);   
+                            
+                        });
+                    </script>
+                    <p>
+                        <label for="precip"><b>Précipitation:</b></label>
+                        <input type="text" id="precip" name="precip" placeholder="Ex:1mm" maxlength="20" required>
+                    </p>
+                    <p>
+                        <label for="id_ressenti"><b>Ressenti:</b></label>
+                        <input type="range" id="id_ressenti" name="level" min="0" max="100" value="50" >
+                    </p>
+                    <p>
+                        <label for="hd">Heure de depart</label>
+                        <input type="time" name="hd" id="hd" required>
+                    </p>
+                    <p>
+                        <label for="hf">heure d'arrivée</label>
+                        <input type="time" name="hf" id="hf" required>
+                    </p>
+                    <p>
+                        <label for="id_conduite"><b>Vitesse</b></label>
+                        <select name="conduite" id="id_conduite">
+                            <option value="">--choix--</option>
+                        </select>
+                    </p>
+                    <script>
+                        Conduite.forEach(function(item,index){
+                            let loptionconduite=`<option value="${item.id_conduite}">${item.vitesse} 
+                                </option>`;
+                            document.getElementById("id_conduite").insertAdjacentHTML('beforeend',loptionconduite);   
+                            
+                        });
+                    </script>  
+                    <p>
+                        <label for="id_indice"><b>indiceUV</b></label><br>
+                        <select name="indice" id="id_indice">
+                            <option value="">--choix--</option>
+                        </select>  
+                        <script>
+                            Indiceuv.forEach(function(item,index){
+                                let loption=`<option value="${item.id_indice}">${item.indiceuv} 
+                                    </option>`;
+                                document.getElementById("id_indice").insertAdjacentHTML('beforeend',loption);   
+                        
+                            });
+                        </script>  
+                        
+                        </p>
+                </fieldset>
+                <p>
+                <button type="button" onclick="saveExperience()">Enregistrer</button>
+                </p>
+               
+                
+                                    
+            </form>
+        </div>    
+    </article> 
+    <footer>
+
+    </footer>
+</body>
+</html>
